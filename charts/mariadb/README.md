@@ -14,7 +14,7 @@ This chart is based on the Bitnami Helm Chart but has been adapted to use the Of
 ```bash
 $ helm repo add bitnami https://madd0c.github.io/charts
 $ helm install my-release madd0c/mariadb
-
+```
 ## Prerequisites
 
 - Kubernetes 1.12+
