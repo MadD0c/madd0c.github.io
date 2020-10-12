@@ -36,8 +36,8 @@ jobs:
   kubeval-chart:
     runs-on: ubuntu-latest
     needs:
-      #- lint-chart
-      - lint-docs
+      - lint-chart
+      #- lint-docs
     strategy:
       matrix:
         k8s:
