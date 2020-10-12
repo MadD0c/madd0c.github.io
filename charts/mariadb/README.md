@@ -9,6 +9,12 @@ The intent is also to maintain high compatibility with MySQL, ensuring a "drop-i
 
 This chart is based on the Bitnami Helm Chart but has been adapted to use the Official Docker Image. This allows it to be used on all architectures unlike the Bitnami imabe which is amd64 only.
 
+## TL;DR
+
+```bash
+$ helm repo add bitnami https://madd0c.github.io/charts
+$ helm install my-release madd0c/mariadb
+
 ## Prerequisites
 
 - Kubernetes 1.12+
@@ -20,7 +26,7 @@ This chart is based on the Bitnami Helm Chart but has been adapted to use the Of
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install my-release bitnami/mariadb
+$ helm install my-release madd0c/mariadb
 ```
 
 The command deploys MariaDB on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
