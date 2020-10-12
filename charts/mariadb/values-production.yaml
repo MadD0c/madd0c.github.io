@@ -674,6 +674,7 @@ rbac:
 volumePermissions:
   enabled: false
   image:
+    # This image is for amd64 only. Change if needing one for arm
     registry: docker.io
     repository: bitnami/minideb
     tag: buster
