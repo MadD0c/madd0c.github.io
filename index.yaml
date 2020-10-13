@@ -5,6 +5,36 @@ entries:
       category: Database
     apiVersion: v1
     appVersion: 10.5.6
+    created: "2020-10-13T22:33:31.287045577Z"
+    description: Fast, reliable, scalable, and easy to use open-source relational
+      database system. MariaDB Server is intended for mission-critical, heavy-load
+      production systems as well as for embedding into mass-deployed software. Highly
+      available MariaDB cluster. This version is based on the bitnami chart but modified
+      to use the offical MariaDb image, thus allowing the chart to now be multi-arch.
+    digest: 5e9f77c2dd63f39881fbae05c5bd3cc80eb50b0302456ea4df2b0c6b2b61291f
+    home: https://github.com/madd0c/charts/mariadb
+    icon: https://bitnami.com/assets/stacks/mariadb/img/mariadb-stack-220x234.png
+    keywords:
+    - mariadb
+    - mysql
+    - database
+    - sql
+    - prometheus
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: MadD0c
+    name: mariadb
+    sources:
+    - https://github.com/bitnami/bitnami-docker-mariadb
+    - https://github.com/prometheus/mysqld_exporter
+    - https://mariadb.org
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/mariadb-1.0.2/mariadb-1.0.2.tgz
+    version: 1.0.2
+  - annotations:
+      category: Database
+    apiVersion: v1
+    appVersion: 10.5.6
     created: "2020-10-13T22:28:07.559289019Z"
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system. MariaDB Server is intended for mission-critical, heavy-load
