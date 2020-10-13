@@ -307,4 +307,3 @@ spec:
         {{- if .Values.primary.persistence.selector }}
         selector: {{- include "common.tplvalues.render" (dict "value" .Values.primary.persistence.selector "context" $) | nindent 10 }}
         {{- end -}}
-  {{- end }}
