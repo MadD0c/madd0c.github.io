@@ -12,8 +12,8 @@
 ##
 image:
   registry: docker.io
-  repository: bitnami/phpmyadmin
-  tag: 5.0.3-debian-10-r0
+  repository: osixia/phpmyadmin
+  tag: latest
   ## Specify a imagePullPolicy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
