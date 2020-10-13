@@ -105,7 +105,6 @@ spec:
                 secretKeyRef:
                   name: {{ template "mariadb.secretName" . }}
                   key: mysql-root-password
-            {{- end }}
             {{- if not (empty .Values.auth.username) }}
             - name: MYSQL_USER
               value: {{ .Values.auth.username | quote }}
@@ -115,8 +114,6 @@ spec:
                 secretKeyRef:
                   name: {{ template "mariadb.secretName" . }}
                   key: mysql-password
-            {{- end }}
-            {{- end }}
             - name: MYSQL_DATABASE
               value: {{ .Values.auth.database | quote }}
             {{- if eq .Values.architecture "replication" }}
