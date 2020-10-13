@@ -17,6 +17,6 @@ sources:
   - https://mariadb.org
 maintainers:
   - name: MadD0c
-    email: TBA
+    email: at.mccann@gmail.com
 annotations:
   category: Database
