@@ -14,7 +14,7 @@ primary:
     create: true
 
 secondary:
-  replicaCount: 2
+  replicaCount: 0
   extraEnvVars:
     - name: TEST
       value: "2"
@@ -30,4 +30,4 @@ rbac:
   create: true
 
 metrics:
-  enabled: true
+  enabled: false
