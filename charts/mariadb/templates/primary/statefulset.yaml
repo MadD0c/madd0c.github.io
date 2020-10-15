@@ -200,19 +200,19 @@ spec:
           {{- end }}
           volumeMounts:
             - name: data
-              mountPath: /bitnami/mariadb
+              mountPath: /var/lib/mysql
             {{- if or .Values.initdbScriptsConfigMap .Values.initdbScripts }}
             - name: custom-init-scripts
               mountPath: /docker-entrypoint-initdb.d
             {{- end }}
             {{- if or .Values.primary.configuration .Values.primary.existingConfigmap }}
             - name: config
-              mountPath: /opt/bitnami/mariadb/conf/my.cnf
+              mountPath: /etc/mysql/my.cnf
               subPath: my.cnf
             {{- end }}
             {{- if .Values.auth.usePasswordFiles }}
             - name: mariadb-credentials
-              mountPath: /opt/bitnami/mariadb/secrets/
+              mountPath: /etc/mysql/secrets/
             {{- end }}
             {{- if .Values.primary.extraVolumeMounts }}
             {{- include "common.tplvalues.render" (dict "value" .Values.primary.extraVolumeMounts "context" $) | nindent 12 }}
