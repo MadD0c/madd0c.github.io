@@ -83,7 +83,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: data
-              mountPath: /bitnami/mariadb
+              mountPath: var/lib/mysql
         {{- end }}
       {{- end }}
       containers:
