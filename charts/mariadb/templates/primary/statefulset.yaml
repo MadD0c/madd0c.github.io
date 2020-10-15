@@ -83,7 +83,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: data
-              mountPath: /var/lib/mysql
+              mountPath: /bitnami/mariadb
         {{- end }}
       {{- end }}
       containers:
@@ -100,21 +100,33 @@ spec:
           args: {{- include "common.tplvalues.render" (dict "value" .Values.primary.args "context" $) | nindent 12 }}
           {{- end }}
           env:
-            - name: MYSQL_ROOT_PASSWORD
+            - name: BITNAMI_DEBUG
+              value: {{ ternary "true" "false" .Values.image.debug | quote }}
+            {{- if .Values.auth.usePasswordFiles }}
+            - name: MARIADB_ROOT_PASSWORD_FILE
+              value: "/opt/bitnami/mariadb/secrets/mariadb-root-password"
+            {{- else }}
+            - name: MARIADB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "mariadb.secretName" . }}
-                  key: mysql-root-password
+                  key: mariadb-root-password
+            {{- end }}
             {{- if not (empty .Values.auth.username) }}
-            - name: MYSQL_USER
+            - name: MARIADB_USER
               value: {{ .Values.auth.username | quote }}
             {{- if .Values.auth.usePasswordFiles }}
-            - name: MYSQL_PASSWORD
+            - name: MARIADB_PASSWORD_FILE
+              value: "/opt/bitnami/mariadb/secrets/mariadb-password"
+            {{- else }}
+            - name: MARIADB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "mariadb.secretName" . }}
-                  key: mysql-password
-            - name: MYSQL_DATABASE
+                  key: mariadb-password
+            {{- end }}
+            {{- end }}
+            - name: MARIADB_DATABASE
               value: {{ .Values.auth.database | quote }}
             {{- if eq .Values.architecture "replication" }}
             - name: MARIADB_REPLICATION_MODE
@@ -122,14 +134,14 @@ spec:
             - name: MARIADB_REPLICATION_USER
               value: {{ .Values.auth.replicationUser | quote }}
             {{- if .Values.auth.usePasswordFiles }}
-            - name: MYSQL_REPLICATION_PASSWORD_FILE
+            - name: MARIADB_REPLICATION_PASSWORD_FILE
               value: "/opt/bitnami/mariadb/secrets/mariadb-replication-password"
             {{- else }}
-            - name: MYSQL_REPLICATION_PASSWORD
+            - name: MARIADB_REPLICATION_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "mariadb.secretName" . }}
-                  key: mysql-replication-password
+                  key: mariadb-replication-password
             {{- end }}
             {{- end }}
             {{- if .Values.primary.extraFlags }}
@@ -160,9 +172,9 @@ spec:
                 - /bin/bash
                 - -ec
                 - |
-                  password_aux="${MYSQL_ROOT_PASSWORD:-}"
-                  if [[ -f "${MYSQL_ROOT_PASSWORD_FILE:-}" ]]; then
-                      password_aux=$(cat "$MYSQL_ROOT_PASSWORD_FILE")
+                  password_aux="${MARIADB_ROOT_PASSWORD:-}"
+                  if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
+                      password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
                   fi
                   mysqladmin status -uroot -p"${password_aux}"
           {{- else if .Values.primary.customLivenessProbe }}
@@ -188,14 +200,14 @@ spec:
           {{- end }}
           volumeMounts:
             - name: data
-              mountPath: /var/lib/mysql
+              mountPath: /bitnami/mariadb
             {{- if or .Values.initdbScriptsConfigMap .Values.initdbScripts }}
             - name: custom-init-scripts
               mountPath: /docker-entrypoint-initdb.d
             {{- end }}
             {{- if or .Values.primary.configuration .Values.primary.existingConfigmap }}
             - name: config
-              mountPath: /etc/mysql/my.cnf
+              mountPath: /opt/bitnami/mariadb/conf/my.cnf
               subPath: my.cnf
             {{- end }}
             {{- if .Values.auth.usePasswordFiles }}
@@ -211,10 +223,10 @@ spec:
           imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
           env:
             {{- if .Values.auth.usePasswordFiles }}
-            - name: MYSQL_ROOT_PASSWORD_FILE
+            - name: MARIADB_ROOT_PASSWORD_FILE
               value: "/opt/bitnami/mysqld-exporter/secrets/mariadb-root-password"
             {{- else }}
-            - name: MYSQL_ROOT_PASSWORD
+            - name: MARIADB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ template "mariadb.secretName" . }}
@@ -224,9 +236,9 @@ spec:
             - /bin/bash
             - -ec
             - |
-              password_aux="${MYSQL_ROOT_PASSWORD:-}"
-              if [[ -f "${MYSQL_ROOT_PASSWORD_FILE:-}" ]]; then
-                  password_aux=$(cat "$MYSQL_ROOT_PASSWORD_FILE")
+              password_aux="${MARIADB_ROOT_PASSWORD:-}"
+              if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
+                  password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
               fi
               DATA_SOURCE_NAME="root:${password_aux}@(localhost:3306)/" /bin/mysqld_exporter {{- range .Values.metrics.extraArgs.primary }} {{ . }} {{- end }}
           ports:
@@ -272,12 +284,14 @@ spec:
           secret:
             secretName: {{ template "mariadb.secretName" . }}
             items:
-              - key: mysql-root-password
-                path: mysql-root-password
-              - key: mysql-password
-                path: mysql-password
-              - key: mysql-replication-password
-                path: mysql-replication-password
+              - key: mariadb-root-password
+                path: mariadb-root-password
+              - key: mariadb-password
+                path: mariadb-password
+              {{- if eq .Values.architecture "replication" }}
+              - key: mariadb-replication-password
+                path: mariadb-replication-password
+              {{- end }}
         {{- end }}
         {{- if .Values.primary.extraVolumes }}
         {{- include "common.tplvalues.render" (dict "value" .Values.primary.extraVolumes "context" $) | nindent 8 }}
@@ -307,3 +321,4 @@ spec:
         {{- if .Values.primary.persistence.selector }}
         selector: {{- include "common.tplvalues.render" (dict "value" .Values.primary.persistence.selector "context" $) | nindent 10 }}
         {{- end -}}
+  {{- end }}
