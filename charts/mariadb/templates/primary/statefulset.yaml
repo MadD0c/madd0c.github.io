@@ -173,9 +173,6 @@ spec:
                 - -ec
                 - |
                   password_aux="${MARIADB_ROOT_PASSWORD:-}"
-                  if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
-                      password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
-                  fi
                   mysqladmin status -uroot -p"${password_aux}"
           {{- else if .Values.primary.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.primary.customLivenessProbe "context" $) | nindent 12 }}
@@ -188,9 +185,6 @@ spec:
                 - -ec
                 - |
                   password_aux="${MARIADB_ROOT_PASSWORD:-}"
-                  if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
-                      password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
-                  fi
                   mysqladmin status -uroot -p"${password_aux}"
           {{- else if .Values.primary.customReadinessProbe }}
           readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.primary.customReadinessProbe "context" $) | nindent 12 }}
@@ -237,9 +231,6 @@ spec:
             - -ec
             - |
               password_aux="${MARIADB_ROOT_PASSWORD:-}"
-              if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
-                  password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
-              fi
               DATA_SOURCE_NAME="root:${password_aux}@(localhost:3306)/" /bin/mysqld_exporter {{- range .Values.metrics.extraArgs.primary }} {{ . }} {{- end }}
           ports:
             - name: metrics
@@ -262,7 +253,7 @@ spec:
           {{- if .Values.auth.usePasswordFiles }}
           volumeMounts:
             - name: mariadb-credentials
-              mountPath: /opt/bitnami/mysqld-exporter/secrets/
+              mountPath: /bin/mysqld-exporter/secrets/
           {{- end }}
         {{- end }}
         {{- if .Values.primary.sidecars }}
