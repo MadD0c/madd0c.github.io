@@ -83,7 +83,7 @@ spec:
           {{- end }}
           volumeMounts:
             - name: data
-              mountPath: /var/lib/mysql
+              mountPath: /bitnami/mariadb
         {{- end }}
       {{- end }}
       containers:
@@ -113,7 +113,7 @@ spec:
                   key: mariadb-root-password
             {{- end }}
             {{- if not (empty .Values.auth.username) }}
-            - name: MYSQL_USER
+            - name: MARIADB_USER
               value: {{ .Values.auth.username | quote }}
             {{- if .Values.auth.usePasswordFiles }}
             - name: MARIADB_PASSWORD_FILE
