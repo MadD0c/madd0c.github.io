@@ -172,8 +172,7 @@ spec:
                 - /bin/bash
                 - -ec
                 - |
-                  password_aux="${MARIADB_ROOT_PASSWORD:-}"
-                  mysqladmin status --user=root --password="${password_aux}"
+                  mysqladmin status --user=root --password="${MYSQL_ROOT_PASSWORD}"
           {{- else if .Values.primary.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.primary.customLivenessProbe "context" $) | nindent 12 }}
           {{- end }}
@@ -184,8 +183,7 @@ spec:
                 - /bin/bash
                 - -ec
                 - |
-                  password_aux="${MARIADB_ROOT_PASSWORD:-}"
-                  mysqladmin status --user=root --password="${password_aux}"
+                  mysqladmin status --user=root --password="${MYSQL_ROOT_PASSWORD}"
           {{- else if .Values.primary.customReadinessProbe }}
           readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.primary.customReadinessProbe "context" $) | nindent 12 }}
           {{- end }}
