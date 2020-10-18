@@ -49,8 +49,8 @@ data:
       redis:
         host: {{ template "authelia.redis.fullname" . }}-master
         port: {{ .Values.redis.redisPort }}
-        {{- if .Values.redis.usePassword }}
-        password: {{ .Values.redis.redispassword }}
+#        {{- if .Values.redis.usePassword }}
+#        password: {{ .Values.redis.redispassword }}
         {{- end }}
       {{- end }}
 
