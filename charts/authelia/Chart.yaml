@@ -1,0 +1,16 @@
+apiVersion: v1
+appVersion: 3.16.2
+description: A full-featured authentication server
+home: https://www.authelia.com
+icon: https://raw.githubusercontent.com/clems4ever/authelia/master/images/authelia.logo.png
+keywords:
+- security
+- totp
+- authentication
+maintainers:
+- email: piotr.maksymiuk@movishell.pl
+  name: Piotr Maksymiuk
+name: authelia
+sources:
+- https://github.com/clems4ever/authelia
+version: 0.1.2
