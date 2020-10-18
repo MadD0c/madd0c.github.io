@@ -244,17 +244,21 @@ tolerations: []
 
 affinity: {}
 
+secrets:
+    jwt_secret:
+    session_secret:
+    
 redis:
   enabled: false
   usePassword: false
-  password: "authelia"
+  redispassword: "authelia"
   cluster:
     enabled: false
 
 externaldb:
   enabled: false
-  externaldbType: 
-  externaldbURL: 
-  externaldbDatabase: 
-  externaldbUser: root
-  externaldbPassword: authelia
+  DBType: 
+  DBURL: 
+  Database: 
+  DBUser: root
+  DBPassword: authelia

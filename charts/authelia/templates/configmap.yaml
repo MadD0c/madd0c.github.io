@@ -50,7 +50,7 @@ data:
         host: {{ template "authelia.redis.fullname" . }}-master
         port: {{ .Values.redis.redisPort }}
         {{- if .Values.redis.usePassword }}
-        password: {{ .Values.redis.password }}
+        password: {{ .Values.redis.redispassword }}
         {{- end }}
       {{- end }}
 
@@ -59,12 +59,12 @@ data:
 
     storage:
       {{- if .Values.externaldb.enabled }}
-      {{ .Values.externaldb.externaldbType }}:
-        url: {{ .Values.externaldb.externaldbURL }}
-        database: {{ .Values.externaldb.externaldbDatabase }}
+      {{ .Values.externaldb.DBType }}:
+        url: {{ .Values.externaldb.DBURL }}
+        database: {{ .Values.externaldb.Database }}
         auth:
-          username: {{ .Values.externaldb.externaldbUser }}
-          password: {{ .Values.externaldb.externaldbPassword }}
+          username: {{ .Values.externaldb.DBUser }}
+          password: {{ .Values.externaldb.DBPassword }}
       {{- else }}
       local:
         path: /var/lib/authelia
