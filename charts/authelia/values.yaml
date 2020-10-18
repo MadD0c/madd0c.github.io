@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: clems4ever/authelia
-  tag: v3.16.2
+  repository: authelia/authelia
+  tag: 4
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -245,12 +245,16 @@ tolerations: []
 affinity: {}
 
 redis:
-  enabled: true
+  enabled: false
   usePassword: false
   password: "authelia"
   cluster:
     enabled: false
 
-mongodb:
-  enabled: true
-  mongodbRootPassword: authelia
+externaldb:
+  enabled: false
+  externaldbType: 
+  externaldbURL: 
+  externaldbDatabase: 
+  externaldbUser: root
+  externaldbPassword: authelia

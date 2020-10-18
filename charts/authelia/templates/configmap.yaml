@@ -6,8 +6,17 @@ metadata:
 {{ include "authelia.labels" . | indent 4 }}
 data:
   config.yml: |-
+    host: 0.0.0.0
     port: 9091
-
+    server:
+      # Buffers usually should be configured to be the same value.
+      # Explanation at https://docs.authelia.com/configuration/server.html
+      # Read buffer size configures the http server's maximum incoming request size in bytes.
+      read_buffer_size: 4096
+      # Write buffer size configures the http server's maximum outgoing response size in bytes.
+      write_buffer_size: 4096
+      # Set the single level path Authelia listens on, must be alphanumeric chars and should not contain any slashes.
+      path: ""
     logs_level: {{ .Values.authelia.logLevel }}
 
     default_redirection_url: {{ .Values.authelia.redirectionURL }}
@@ -49,13 +58,13 @@ data:
 {{ toYaml .Values.authelia.regulation | indent 6 }}
 
     storage:
-      {{- if .Values.mongodb.enabled }}
-      mongo:
-        url: mongodb://{{ template "authelia.mongodb.fullname" . }}
-        database: authelia
+      {{- if .Values.externaldb.enabled }}
+      {{ .Values.externaldb.externaldbType }}:
+        url: {{ .Values.externaldb.externaldbURL }}
+        database: {{ .Values.externaldb.externaldbDatabase }}
         auth:
-          username: root
-          password: {{ .Values.mongodb.mongodbRootPassword }}
+          username: {{ .Values.externaldb.externaldbUser }}
+          password: {{ .Values.externaldb.externaldbPassword }}
       {{- else }}
       local:
         path: /var/lib/authelia
