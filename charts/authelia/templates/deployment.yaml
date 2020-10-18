@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "authelia.fullname" . }}
+  labels:
+{{ include "authelia.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "authelia.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "authelia.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ template "authelia.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: NODE_TLS_REJECT_UNAUTHORIZED
+            value: "0"
+          ports:
+            - name: authelia-port
+              containerPort: 9091
+              protocol: TCP
+        startupProbe:
+          httpGet:
+            path: /api/state
+            port: authelia-port
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          periodSeconds: 5
+          failureThreshold: 4
+        livenessProbe:
+          httpGet:
+            path: /api/state
+            port: authelia-port
+          initialDelaySeconds: 60
+          timeoutSeconds: 5
+          periodSeconds: 30
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /api/state
+            port: authelia-port
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+          periodSeconds: 5
+          failureThreshold: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: authelia-config
+            mountPath: /etc/authelia/configuration.yml
+            subPath: configuration.yml
+          - name: authelia-secret
+            mountPath: /etc/authelia/secrets
+            readOnly: true
+          {{- if not .Values.externaldb.enabled }}
+          - name: authelia-store
+            mountPath: /var/lib/authelia
+          {{- end }}
+          {{- if not .Values.authelia.ldap.enable }}
+          - name: authelia-users
+            mountPath: /var/lib/authelia/users_database.yml
+            subPath: users_database.yml
+          {{- end }}
+          - name: authelia-temp
+            mountPath: /tmp/authelia
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+      - name: authelia-config
+        configMap:
+          name: {{ template "authelia.fullname" . }}-config
+      - name: authelia-secret
+        secret:
+          secretname: {{ template "authelia.fullname" . }}-secret
+          items:
+            - key: jwt_secret
+              path: jwt
+            - key: duo_secret
+              path: duo
+            - key: session_secret
+              path: session
+            - key: redis_password
+              path: redis_password
+            - key: sql_password
+              path: sql_password
+            - key: ldap_password
+              path: ldap_password
+            - key: smtp_password
+              path: smtp_password
+      {{- if not .Values.externaldb.enabled }}
+      - name: authelia-store
+        persistentVolumeClaim:
+          claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "authelia.fullname" . }}-store{{- end }}
+      {{- end }}
+      {{- if not .Values.authelia.ldap.enable }}
+      - name: authelia-users
+        secret:
+          secretName: {{ template "authelia.fullname" . }}-users
+      {{- end }}
+      - name: authelia-temp
+        emptyDir: {}
