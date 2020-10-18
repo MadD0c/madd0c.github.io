@@ -34,32 +34,32 @@ spec:
             value: "0"
           ports:
             - name: authelia-port
-            -  containerPort: 9091
-            -  protocol: TCP
-        startupProbe:
-          httpGet:
-            path: /api/state
-            port: authelia-port
-          initialDelaySeconds: 15
-          timeoutSeconds: 5
-          periodSeconds: 5
-          failureThreshold: 4
-        livenessProbe:
-          httpGet:
-            path: /api/state
-            port: authelia-port
-          initialDelaySeconds: 60
-          timeoutSeconds: 5
-          periodSeconds: 30
-          failureThreshold: 2
-        readinessProbe:
-          httpGet:
-            path: /api/state
-            port: authelia-port
-          initialDelaySeconds: 15
-          timeoutSeconds: 5
-          periodSeconds: 5
-          failureThreshold: 5
+              containerPort: 9091
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /api/state
+              port: authelia-port
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 4
+          livenessProbe:
+            httpGet:
+              path: /api/state
+              port: authelia-port
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+            periodSeconds: 30
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /api/state
+              port: authelia-port
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
