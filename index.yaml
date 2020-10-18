@@ -3,6 +3,35 @@ entries:
   authelia:
   - apiVersion: v1
     appVersion: 4.22.0
+    created: "2020-10-18T23:40:08.563315449Z"
+    dependencies:
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://kubernetes-charts.storage.googleapis.com/
+      version: ~7.4.6
+    - condition: redis.enabled
+      name: redis
+      repository: https://kubernetes-charts.storage.googleapis.com/
+      version: ~10.0.1
+    description: A full-featured authentication server
+    digest: 0d60ef4ba4adf5f8de701782edc4f24cc30b3e387c8bcbd37e7a7f7c4680b81f
+    home: https://www.authelia.com
+    icon: https://github.com/authelia/authelia/blob/master/docs/images/authelia-title.png
+    keywords:
+    - security
+    - totp
+    - authentication
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: MadD0c
+    name: authelia
+    sources:
+    - https://github.com/authelia/authelia
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/authelia-0.3/authelia-0.3.tgz
+    version: "0.3"
+  - apiVersion: v1
+    appVersion: 4.22.0
     created: "2020-10-18T23:38:38.442834065Z"
     dependencies:
     - condition: mongodb.enabled
