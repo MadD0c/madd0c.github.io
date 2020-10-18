@@ -98,7 +98,7 @@ spec:
           name: {{ template "authelia.fullname" . }}-config
       - name: authelia-secret
         secret:
-          secretname: {{ template "authelia.fullname" . }}-secret
+          secretName: {{ template "authelia.fullname" . }}-secret
           items:
             - key: jwt_secret
               path: jwt
