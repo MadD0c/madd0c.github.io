@@ -64,10 +64,10 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
           - name: authelia-config
-            mountPath: /etc/authelia/configuration.yml
+            mountPath: /config/configuration.yml
             subPath: configuration.yml
           - name: authelia-secret
-            mountPath: /etc/authelia/secrets
+            mountPath: /app/secrets
             readOnly: true
           {{- if not .Values.externaldb.enabled }}
           - name: authelia-store
@@ -75,7 +75,7 @@ spec:
           {{- end }}
           {{- if not .Values.authelia.ldap.enable }}
           - name: authelia-users
-            mountPath: /var/lib/authelia/users_database.yml
+            mountPath: /config/users_database.yml
             subPath: users_database.yml
           {{- end }}
           - name: authelia-temp
