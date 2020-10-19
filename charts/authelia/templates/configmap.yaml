@@ -5,7 +5,7 @@ metadata:
   labels:
 {{ include "authelia.labels" . | indent 4 }}
 data:
-  config.yml: |-
+  configuration.yml: |-
     host: 0.0.0.0
     port: 9091
     server:
