@@ -17,7 +17,7 @@ data:
       write_buffer_size: 4096
       # Set the single level path Authelia listens on, must be alphanumeric chars and should not contain any slashes.
       path: ""
-    logs_level: {{ .Values.authelia.logLevel }}
+    log_level: {{ .Values.authelia.logLevel }}
 
     default_redirection_url: {{ .Values.authelia.redirectionURL }}
 
