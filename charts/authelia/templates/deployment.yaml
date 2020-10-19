@@ -32,6 +32,20 @@ spec:
           env:
           - name: NODE_TLS_REJECT_UNAUTHORIZED
             value: "0"
+          - name: AUTHELIA_JWT_SECRET_FILE
+            value: /app/secrets/jwt
+          - name: AUTHELIA_DUO_API_SECRET_KEY_FILE
+            value: /app/secrets/duo
+          - name: AUTHELIA_SESSION_SECRET_FILE
+            value: /app/secrets/session
+          - name: AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE
+            value: /app/secrets/ldap_password
+          - name: AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE
+            value: /app/secrets/smtp_password
+          - name: AUTHELIA_STORAGE_MYSQL_PASSWORD_FILE
+            value: /app/secrets/sql_password
+          - name: AUTHELIA_SESSION_REDIS_PASSWORD_FILE
+            value: /app/secrets/redis_password
           ports:
             - name: authelia-port
               containerPort: 9091

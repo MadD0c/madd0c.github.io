@@ -14,7 +14,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 authelia:
-  logLevel: "debug"
+  logLevel: "trace"
   redirectionURL: "https://home.example.com:8080/"
   totpIssuer: "authelia.com"
 
@@ -146,8 +146,8 @@ authelia:
 
   notifier: {}
     # For testing purpose, notifications can be sent in a file
-    # filesystem:
-    #   filename: /tmp/authelia/notification.txt
+    filesystem:
+      filename: /tmp/authelia/notification.txt
 
     # Use a SMTP server for sending notifications
     # smtp:
