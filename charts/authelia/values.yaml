@@ -144,10 +144,13 @@ authelia:
     # The length of time before a banned user can login again.
     ban_time: 300
 
-  notifier: {}
-    # For testing purpose, notifications can be sent in a file
+  notifier: 
+  # You can disable the notifier startup check by setting this to true.
+    disable_startup_check: false
+
+  # For testing purpose, notifications can be sent in a file
     filesystem:
-      filename: /tmp/authelia/notification.txt
+      filename: /config/notification.txt
 
     # Use a SMTP server for sending notifications
     # smtp:
