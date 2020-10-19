@@ -67,7 +67,7 @@ data:
           password: {{ .Values.externaldb.DBPassword }}
       {{- else }}
       local:
-        path: /var/lib/authelia
+        path: /var/lib/authelia/db.sqlite3
       {{- end }}
 
     notifier:
