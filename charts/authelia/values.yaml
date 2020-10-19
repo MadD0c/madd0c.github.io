@@ -157,7 +157,7 @@ authelia:
     #   port: 1025
     #   sender: admin@example.com
 
-# Options for Authelia PVC (/var/lib/authelia/store) when not using mongoDB
+# Options for Authelia PVC (/var/lib/authelia/store) when not using external DB
 persistence:
   annotations: {}
   ## Persistent Volume Storage Class
