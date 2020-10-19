@@ -3,6 +3,26 @@ entries:
   authelia:
   - apiVersion: v1
     appVersion: 4.22.0
+    created: "2020-10-19T20:37:55.007484742Z"
+    description: A full-featured authentication server
+    digest: 997eee4ea973253d5e5a3bbbbea78b2f5b15ef0f8bdbc93264bd2c02173f9847
+    home: https://www.authelia.com
+    icon: https://github.com/authelia/authelia/blob/master/docs/images/authelia-title.png
+    keywords:
+    - security
+    - totp
+    - authentication
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: MadD0c
+    name: authelia
+    sources:
+    - https://github.com/authelia/authelia
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/authelia-0.5/authelia-0.5.tgz
+    version: "0.5"
+  - apiVersion: v1
+    appVersion: 4.22.0
     created: "2020-10-18T23:47:12.177985454Z"
     dependencies:
     - condition: mongodb.enabled
@@ -67,3 +87,4 @@ entries:
     urls:
     - https://github.com/MadD0c/madd0c.github.io/releases/download/mariadb-0.0.8/mariadb-0.0.8.tgz
     version: 0.0.8
+generated: "0001-01-01T00:00:00Z"
