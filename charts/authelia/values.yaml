@@ -246,8 +246,8 @@ secrets:
 redis:
   enabled: false
   usePassword: false
-  cluster:
-    enabled: false
+  host: 
+  port: 
 
 externaldb:
   enabled: false
