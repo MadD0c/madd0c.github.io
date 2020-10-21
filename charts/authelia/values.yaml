@@ -146,8 +146,8 @@ authelia:
 
   notifier: 
   # You can disable the notifier startup check by setting this to true.
-    disable_startup_check: false
-
+    smtpenabled: false
+   
   # For testing purpose, notifications can be sent in a file
     filesystem:
       filename: /config/notification.txt
