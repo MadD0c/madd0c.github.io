@@ -71,6 +71,7 @@ data:
       {{- end }}
 
     notifier:
+       disable_startup_check: false
        {{- if .Values.authelia.notifier.smtpenabled }}
        smtp:
        {{ toYaml .Values.authelia.notifier.smtp | indent 8 }}
