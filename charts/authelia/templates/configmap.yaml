@@ -71,4 +71,10 @@ data:
       {{- end }}
 
     notifier:
-{{ toYaml .Values.authelia.notifier | indent 6 }}
+       {{- if .Values.authelia.notifier.smtpenabled }}
+       smtp:
+       {{ toYaml .Values.authelia.notifier.smtp | indent 8 }}
+       {{- else }}
+       filesystem:
+       {{ toYaml .Values.authelia.notifier.filesystem | indent 8 }}
+       {{- end }}
