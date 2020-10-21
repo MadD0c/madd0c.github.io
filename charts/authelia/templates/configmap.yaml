@@ -47,10 +47,10 @@ data:
 {{ toYaml .Values.authelia.session | indent 6 }}
       {{- if .Values.redis.enabled }}
       redis:
-        host: {{ template "authelia.redis.fullname" . }}-master
-        port: {{ .Values.redis.redisPort }}
-#        {{- if .Values.redis.usePassword }}
-#        password: {{ .Values.redis.redispassword }}
+        host: {{ .Values.redis.host }}
+        port: {{ .Values.redis.port }}
+        {{- if .Values.redis.usePassword }}
+        password: {{ .Values.redis.redispassword }}
         {{- end }}
       {{- end }}
 
