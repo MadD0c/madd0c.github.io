@@ -146,19 +146,19 @@ authelia:
 
   notifier: 
   # You can disable the notifier startup check by setting this to true.
-    disable_startup_check: false
-
+    smtpenabled: false
+   
   # For testing purpose, notifications can be sent in a file
     filesystem:
       filename: /config/notification.txt
 
     # Use a SMTP server for sending notifications
-    # smtp:
-    #   username: test
-    #   secure: false
-    #   host: 127.0.0.1
-    #   port: 1025
-    #   sender: admin@example.com
+     smtp:
+       username: test
+       secure: false
+       host: 127.0.0.1
+       port: 1025
+       sender: admin@example.com
 
 # Options for Authelia PVC (/var/lib/authelia/store) when not using external DB
 persistence:
@@ -246,8 +246,9 @@ secrets:
 redis:
   enabled: false
   usePassword: false
-  cluster:
-    enabled: false
+  host: 
+  port: 
+  database_index:
 
 externaldb:
   enabled: false

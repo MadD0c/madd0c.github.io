@@ -47,10 +47,11 @@ data:
 {{ toYaml .Values.authelia.session | indent 6 }}
       {{- if .Values.redis.enabled }}
       redis:
-        host: {{ template "authelia.redis.fullname" . }}-master
-        port: {{ .Values.redis.redisPort }}
-#        {{- if .Values.redis.usePassword }}
-#        password: {{ .Values.redis.redispassword }}
+        host: {{ .Values.redis.host }}
+        port: {{ .Values.redis.port }}
+        {{- if .Values.redis.usePassword }}
+        password: {{ .Values.redis.password }}
+        database_index: {{ .Values.redis.database_index }}
         {{- end }}
       {{- end }}
 
@@ -71,4 +72,11 @@ data:
       {{- end }}
 
     notifier:
-{{ toYaml .Values.authelia.notifier | indent 6 }}
+       disable_startup_check: false
+       {{- if .Values.authelia.notifier.smtpenabled }}
+       smtp:
+       {{ toYaml .Values.authelia.notifier.smtp | indent 8 }}
+       {{- else }}
+       filesystem:
+       {{ toYaml .Values.authelia.notifier.filesystem | indent 8 }}
+       {{- end }}
