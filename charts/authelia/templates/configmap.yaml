@@ -65,7 +65,6 @@ data:
         database: {{ .Values.externaldb.Database }}
         auth:
           username: {{ .Values.externaldb.DBUser }}
-          password: {{ .Values.externaldb.DBPassword }}
       {{- else }}
       local:
         path: /var/lib/authelia/db.sqlite3
