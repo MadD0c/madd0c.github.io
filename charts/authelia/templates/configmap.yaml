@@ -61,7 +61,7 @@ data:
     storage:
       {{- if .Values.externaldb.enabled }}
       {{ .Values.externaldb.DBType }}:
-        url: {{ .Values.externaldb.DBURL }}
+        host: {{ .Values.externaldb.DBURL }}
         database: {{ .Values.externaldb.Database }}
         username: {{ .Values.externaldb.DBUser }}
       {{- else }}
