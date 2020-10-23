@@ -9,13 +9,8 @@ data:
     host: 0.0.0.0
     port: 9091
     server:
-      # Buffers usually should be configured to be the same value.
-      # Explanation at https://docs.authelia.com/configuration/server.html
-      # Read buffer size configures the http server's maximum incoming request size in bytes.
       read_buffer_size: 4096
-      # Write buffer size configures the http server's maximum outgoing response size in bytes.
       write_buffer_size: 4096
-      # Set the single level path Authelia listens on, must be alphanumeric chars and should not contain any slashes.
       path: ""
     log_level: {{ .Values.authelia.logLevel }}
 
@@ -49,10 +44,7 @@ data:
       redis:
         host: {{ .Values.redis.host }}
         port: {{ .Values.redis.port }}
-        {{- if .Values.redis.usePassword }}
-        password: {{ .Values.redis.password }}
         database_index: {{ .Values.redis.database_index }}
-        {{- end }}
       {{- end }}
 
     regulation:
@@ -61,7 +53,7 @@ data:
     storage:
       {{- if .Values.externaldb.enabled }}
       {{ .Values.externaldb.DBType }}:
-        url: {{ .Values.externaldb.DBURL }}
+        host: {{ .Values.externaldb.DBURL }}
         database: {{ .Values.externaldb.Database }}
         username: {{ .Values.externaldb.DBUser }}
       {{- else }}
