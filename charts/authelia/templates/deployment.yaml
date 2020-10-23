@@ -87,7 +87,8 @@ spec:
           - name: authelia-store
             mountPath: /var/lib/authelia
           {{- end }}
-          {{- if not .Values.authelia.ldap.enable }}
+          {{- if .Values.authelia.ldap.enabled }}
+          {{- else }}
           - name: authelia-users
             mountPath: /config/users_database.yml
             subPath: users_database.yml
@@ -133,7 +134,8 @@ spec:
         persistentVolumeClaim:
           claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "authelia.fullname" . }}-store{{- end }}
       {{- end }}
-      {{- if not .Values.authelia.ldap.enable }}
+      {{- if .Values.authelia.ldap.enabled }}
+      {{- else }}
       - name: authelia-users
         secret:
           secretName: {{ template "authelia.fullname" . }}-users
