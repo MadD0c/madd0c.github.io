@@ -3,6 +3,26 @@ entries:
   authelia:
   - apiVersion: v1
     appVersion: 4.22.0
+    created: "2020-10-24T01:23:47.017592011Z"
+    description: A full-featured authentication server
+    digest: 787a6d61103247336e7f13927e2a852022f11633594186aecc15d2a75c7b989e
+    home: https://www.authelia.com
+    icon: https://github.com/authelia/authelia/blob/master/docs/images/authelia-title.png
+    keywords:
+    - security
+    - totp
+    - authentication
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: MadD0c
+    name: authelia
+    sources:
+    - https://github.com/authelia/authelia
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/authelia-1.4/authelia-1.4.tgz
+    version: "1.4"
+  - apiVersion: v1
+    appVersion: 4.22.0
     created: "2020-10-23T23:52:36.383335789Z"
     description: A full-featured authentication server
     digest: 2d96221b72518f488e71d219d858acea4f9456ddd82a0b546b1a764247ed7dd5
