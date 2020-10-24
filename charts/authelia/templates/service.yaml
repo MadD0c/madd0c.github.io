@@ -8,9 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 9091
       protocol: TCP
-      name: http
+      name: auth-port
   selector:
     app.kubernetes.io/name: {{ include "authelia.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
