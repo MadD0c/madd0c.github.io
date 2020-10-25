@@ -267,4 +267,24 @@ entries:
     urls:
     - https://github.com/MadD0c/madd0c.github.io/releases/download/mariadb-0.0.8/mariadb-0.0.8.tgz
     version: 0.0.8
+  openldap:
+  - apiVersion: v1
+    appVersion: 2.4.48
+    created: "2020-10-25T14:31:48.368349221Z"
+    description: Community developed LDAP software
+    digest: 7b12a103f8e158feee39cfc0253843e0454d4ed9077133eb0815122bef2781b6
+    home: https://www.openldap.org
+    icon: http://www.openldap.org/images/headers/LDAPworm.gif
+    keywords:
+    - ldap
+    - openldap
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: MadD0c
+    name: openldap
+    sources:
+    - https://github.com/kubernetes/charts
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/openldap-0.0.1/openldap-0.0.1.tgz
+    version: 0.0.1
 generated: "0001-01-01T00:00:00Z"
