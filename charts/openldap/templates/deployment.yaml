@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name:  {{ template "openldap.fullname" . }}
   labels:
@@ -16,6 +16,7 @@ spec:
   strategy:
 {{ toYaml .Values.strategy | indent 4 }}
 {{- end }}
+  serviceName: {{ template "openldap.fullname" . }}
   selector:
     matchLabels:
       app: {{ template "openldap.name" . }}
@@ -169,9 +170,5 @@ spec:
           emptyDir:
             medium: Memory
         - name: data
-        {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "openldap.fullname" .) }}
-        {{- else }}
-          emptyDir: {}
-        {{- end -}}
