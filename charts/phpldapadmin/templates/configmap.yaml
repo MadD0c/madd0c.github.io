@@ -1,7 +1,9 @@
+---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "phpldapadmin.fullname" . }}
+  name: {{ template "phpldapadmin.fullname" . }}-config
   labels:
     app: {{ template "phpldapadmin.name" . }}
     chart: {{ template "phpldapadmin.chart" . }}
@@ -11,4 +13,117 @@ metadata:
 {{ toYaml .Values.extraLabels | indent 4 }}
 {{- end }}
 data:
-{{ toYaml .Values.env | indent 2 }}
+  config.php: |-
+		<?php
+		/** NOTE **
+		 ** Make sure that <?php is the FIRST line of this file!
+		 ** IE: There should NOT be any blank lines or spaces BEFORE <?php
+		 **/
+
+		/**
+		 * The phpLDAPadmin config file
+		 * See: http://phpldapadmin.sourceforge.net/wiki/index.php/Config.php
+		 */
+
+		/*********************************************
+		 * Useful important configuration overrides  *
+		 *********************************************/
+
+		/* If you are asked to put PLA in debug mode, this is how you do it: */
+		#  $config->custom->debug['level'] = 255;
+		#  $config->custom->debug['syslog'] = true;
+		#  $config->custom->debug['file'] = '/tmp/pla_debug.log';
+
+		/* phpLDAPadmin can encrypt the content of sensitive cookies if you set this
+		   to a big random string. */
+		 $config->custom->session['blowfish'] = '{{ PHPLDAPADMIN_CONFIG_BLOWFISH }}';
+
+		/* The temporary storage directory where we will put jpegPhoto data
+		   This directory must be readable and writable by your web server. */
+		 $config->custom->jpeg['tmpdir'] = '/var/www/tmp';
+
+		/*********************************************
+		 * Appearance                                *
+		 *********************************************/
+		/* Hide the warnings for invalid objectClasses/attributes in templates. */
+		$config->custom->appearance['hide_template_warning'] = true;
+
+		/*********************************************
+		 * User-friendly attribute translation       *
+		 *********************************************/
+
+		/* Use this array to map attribute names to user friendly names. For example, if
+		   you don't want to see "facsimileTelephoneNumber" but rather "Fax". */
+		// $config->custom->appearance['friendly_attrs'] = array();
+		$config->custom->appearance['friendly_attrs'] = array(
+			'facsimileTelephoneNumber' => 'Fax',
+			'gid'                      => 'Group',
+			'mail'                     => 'Email',
+			'telephoneNumber'          => 'Telephone',
+			'uid'                      => 'User Name',
+			'userPassword'             => 'Password'
+		);
+
+		/*********************************************
+		 * Define your LDAP servers in this section  *
+		 *********************************************/
+
+		$servers = new Datastore();
+
+		/* $servers->NewServer('ldap_pla') must be called before each new LDAP server
+		   declaration. */
+		$servers->newServer('ldap_pla');
+
+		/* A convenient name that will appear in the tree viewer and throughout
+		   phpLDAPadmin to identify this LDAP server to users. */
+		$servers->setValue('server','name','{{ .Values.ldap.name }}');
+
+		/* Examples:
+		   'ldap.example.com',
+		   'ldaps://ldap.example.com/',
+		   'ldapi://%2fusr%local%2fvar%2frun%2fldapi'
+				   (Unix socket at /usr/local/var/run/ldap) */
+		 $servers->setValue('server','host','{{ .Values.ldap.host }}');
+
+		/* The port your LDAP server listens on (no quotes). 389 is standard. */
+		 $servers->setValue('server','port',{{ .Values.ldap.port }});
+
+		/* Array of base DNs of your LDAP server. Leave this blank to have phpLDAPadmin
+		   auto-detect it for you. */
+		 $servers->setValue('server','base',array(''));
+
+		/* Five options for auth_type:
+		   1. 'cookie': you will login via a web form, and a client-side cookie will
+			  store your login dn and password.
+		   2. 'session': same as cookie but your login dn and password are stored on the
+			  web server in a persistent session variable.
+		   3. 'http': same as session but your login dn and password are retrieved via
+			  HTTP authentication.
+		   4. 'config': specify your login dn and password here in this config file. No
+			  login will be required to use phpLDAPadmin for this server.
+		   5. 'sasl': login will be taken from the webserver's kerberos authentication.
+			  Currently only GSSAPI has been tested (using mod_auth_kerb).
+
+		   Choose wisely to protect your authentication information appropriately for
+		   your situation. If you choose 'cookie', your cookie contents will be
+		   encrypted using blowfish and the secret your specify above as
+		   session['blowfish']. */
+		 $servers->setValue('login','auth_type','{{ .Values.ldap.auth_type }}');
+
+		/* The DN of the user for phpLDAPadmin to bind with. For anonymous binds or
+		   'cookie','session' or 'sasl' auth_types, LEAVE THE LOGIN_DN AND LOGIN_PASS
+		   BLANK. If you specify a login_attr in conjunction with a cookie or session
+		   auth_type, then you can also specify the bind_id/bind_pass here for searching
+		   the directory for users (ie, if your LDAP server does not allow anonymous
+		   binds. */
+		// $servers->setValue('login','bind_id','');
+		  $servers->setValue('login','bind_id','{{ .Values.ldap.bind_id }}');
+
+		/* Your LDAP password. If you specified an empty bind_id above, this MUST also
+		   be blank. */
+		// $servers->setValue('login','bind_pass','');
+		 $servers->setValue('login','bind_pass','$PHPLDAPADMIN_PASSWORD');
+
+		/* Use TLS (Transport Layer Security) to connect to the LDAP server. */
+		 $servers->setValue('server','tls',{{ .Values.ldap.tsl }});
+		?>

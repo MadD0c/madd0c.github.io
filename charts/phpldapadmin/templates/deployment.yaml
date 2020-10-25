@@ -8,7 +8,6 @@ metadata:
     chart: {{ template "phpldapadmin.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -29,9 +28,16 @@ spec:
         - name: http
           containerPort: 80
           protocol: TCP
-        envFrom:
-        - configMapRef:
-            name: {{ template "phpldapadmin.fullname" . }}
+        env:
+          - name: PHPLDAPADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "phpldapadmin.fullname" . }}-secret
+                key: ldap_password
+        volumeMounts:
+          - name: phpldapadmin-config
+            mountPath: /config/config.php
+            subPath: config.php
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
@@ -50,3 +56,7 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+      volumes:
+        - name: phpldapadmin-config
+          configMap:
+            name: {{ template "phpldapadmin.fullname" . }}-config
