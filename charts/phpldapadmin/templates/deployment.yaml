@@ -38,6 +38,9 @@ spec:
           - name: phpldapadmin-config
             mountPath: /container/service/phpldapadmin/assets/config/config.php
             subPath: config.php
+          - name: cert
+            mountPath: /container/service/ldap-client/assets/certs/
+            
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
@@ -60,3 +63,5 @@ spec:
         - name: phpldapadmin-config
           configMap:
             name: {{ template "phpldapadmin.fullname" . }}-config
+        - name: cert
+          emptyDir: {}
