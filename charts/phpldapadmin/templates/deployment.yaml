@@ -40,7 +40,7 @@ spec:
             subPath: config.php
           - name: cert-ldap
             mountPath: /container/service/ldap-client/assets/certs/
-           - name: cert-apache
+          - name: cert-apache
             mountPath: /container/service/phpldapadmin/assets/apache2/certs/
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
