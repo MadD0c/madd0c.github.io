@@ -290,6 +290,24 @@ entries:
   phpldapadmin:
   - apiVersion: v1
     appVersion: 0.7.1
+    created: "2020-10-26T00:24:44.469784085Z"
+    description: Web-based LDAP browser to manage your LDAP server
+    digest: 046c8ef4ee8d54f5fa9d9357d956dd906c195fba243293590c45fad4da88d02b
+    home: http://phpldapadmin.sourceforge.net
+    icon: http://phpldapadmin.sourceforge.net/wiki/images/d/d4/Logo.jpg
+    keywords:
+    - phpldapadmin
+    - openldap
+    - userrights
+    maintainers:
+    - name: alexnuttinck
+    - name: AyadiAmen
+    name: phpldapadmin
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/phpldapadmin-0.0.3/phpldapadmin-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v1
+    appVersion: 0.7.1
     created: "2020-10-25T22:24:06.202215222Z"
     description: Web-based LDAP browser to manage your LDAP server
     digest: 2d9cfea63921eadac83d95bc5ef206e7b963aceb73796ad150367ed9487e65a5
