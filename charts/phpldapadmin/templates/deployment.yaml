@@ -41,9 +41,9 @@ spec:
             mountPath: /container/service/phpldapadmin/assets/config/config.php
             subPath: config.php
           - name: phpldapadmin-certs
-            mountPath: /container/run/service/phpldapadmin/assets/apache2/certs
+            mountPath: /container/service/phpldapadmin/assets/apache2/certs
           - name: ldap-client-certs
-            mountPath: /container/run/service/ldap-client/assets/certs
+            mountPath: /container/service/ldap-client/assets/certs
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
