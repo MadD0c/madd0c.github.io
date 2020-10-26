@@ -36,7 +36,7 @@ spec:
                 key: ldap_password
         volumeMounts:
           - name: phpldapadmin-config
-            mountPath: /config/config.php
+            mountPath: /container/service/phpldapadmin/assets/config/config.php
             subPath: config.php
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
