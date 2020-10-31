@@ -270,6 +270,25 @@ entries:
   openldap:
   - apiVersion: v1
     appVersion: 2.4.48
+    created: "2020-10-31T01:33:48.919267408Z"
+    description: Community developed LDAP software
+    digest: 2261d1867b7c35f61868c2e84c1eebfb13e3528715d04badb9687d1b4f3b0216
+    home: https://www.openldap.org
+    icon: http://www.openldap.org/images/headers/LDAPworm.gif
+    keywords:
+    - ldap
+    - openldap
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: MadD0c
+    name: openldap
+    sources:
+    - https://github.com/kubernetes/charts
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/openldap-0.0.4/openldap-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v1
+    appVersion: 2.4.48
     created: "2020-10-27T00:16:50.573176716Z"
     description: Community developed LDAP software
     digest: 4479b02740207780ffa6fd0b425b3130e414fb51b2f5e3246d77ec64d1620054
