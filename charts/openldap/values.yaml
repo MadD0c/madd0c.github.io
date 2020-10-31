@@ -59,7 +59,7 @@ env:
   LDAP_TLS: "true"
   LDAP_TLS_ENFORCE: "false"
   LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
-  LDAP_LOG_LEVEL: 256
+  LDAP_LOG_LEVEL: "256"
 
 # Default Passwords to use, stored as a secret. If unset, passwords are auto-generated.
 # You can override these at install time with
