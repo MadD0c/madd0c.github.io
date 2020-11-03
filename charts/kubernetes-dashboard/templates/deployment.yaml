@@ -75,15 +75,9 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         ports:
-{{- if .Values.protocolHttp }}
-        - name: http
-          containerPort: 9090
-          protocol: TCP
-{{- else }}
         - name: https
           containerPort: 8443
           protocol: TCP
-{{- end }}
         volumeMounts:
         - name: kubernetes-dashboard-certs
           mountPath: /certs
@@ -95,15 +89,9 @@ spec:
 {{- end }}
         livenessProbe:
           httpGet:
-{{- if .Values.protocolHttp }}
-            scheme: HTTP
-            path: /
-            port: 9090
-{{- else }}
             scheme: HTTPS
             path: /
             port: 8443
-{{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
 {{- with .Values.resources }}
@@ -140,6 +128,56 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
 {{- end }}
+{{- if .Values.proxy.enabled }}
+      - name: dashboard-proxy
+        image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+          - name: SECRET_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: dashboard-proxy-secrets
+                key: k8s_token
+        ports:
+{{- if .Values.protocolHttp }}
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+{{- else }}
+        - name: https
+          containerPort: 8080
+          protocol: TCP
+{{- end }}
+        livenessProbe:
+          httpGet:
+{{- if .Values.protocolHttp }}
+            scheme: HTTP
+            path: /
+            port: 8080
+{{- else }}
+            scheme: HTTPS
+            path: /
+            port: 8080
+{{- end }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        volumeMounts:
+          - name: proxy-settings
+            mountPath: /etc/nginx/sites-available/default
+            subPath: default
+          - name: kubernetes-dashboard-certs
+            mountPath: /certs
+          - mountPath: /tmp
+            name: tmp-volume
+{{- with .Values.proxy.containerSecurityContext }}
+        securityContext:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- with .Values.proxy.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+{{- end }}
+{{- end }}
 {{- with .Values.image.pullSecrets }}
       imagePullSecrets:
 {{- range . }}
@@ -154,6 +192,9 @@ spec:
       priorityClassName: "{{ . }}"
 {{- end }}
       volumes:
+      - name: proxy-settings
+        configMap:
+          name: dashboard-proxy-settings
       - name: kubernetes-dashboard-certs
         secret:
           secretName: {{ template "kubernetes-dashboard.fullname" . }}-certs
