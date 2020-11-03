@@ -230,6 +230,32 @@ entries:
     urls:
     - https://github.com/MadD0c/madd0c.github.io/releases/download/authelia-0.4/authelia-0.4.tgz
     version: "0.4"
+  kubernetes-dashboard:
+  - apiVersion: v1
+    appVersion: 2.0.4
+    created: "2020-11-03T23:19:53.491867477Z"
+    dependencies:
+    - condition: metrics-server.enabled
+      name: metrics-server
+      repository: https://kubernetes-charts.storage.googleapis.com/
+      version: 2.11.1
+    description: General-purpose web UI for Kubernetes clusters
+    digest: 3f9fe37036062beb54c2a37636a48a5d52c7e9ab51dee2282c2d7881b8b5b9ce
+    home: https://github.com/kubernetes/dashboard
+    icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg
+    keywords:
+    - kubernetes
+    - dashboard
+    kubeVersion: '>=1.10.0-0'
+    maintainers:
+    - email: at.mccann@gmail.com
+      name: DrAdriMan
+    name: kubernetes-dashboard
+    sources:
+    - https://github.com/kubernetes/dashboard
+    urls:
+    - https://github.com/MadD0c/madd0c.github.io/releases/download/kubernetes-dashboard-0.0.1/kubernetes-dashboard-0.0.1.tgz
+    version: 0.0.1
   mariadb:
   - annotations:
       category: Database
