@@ -296,3 +296,6 @@ networkPolicy:
 podSecurityPolicy:
   # Specifies whether a pod security policy should be created
   enabled: false
+
+secrets:
+  k8s_token: none
