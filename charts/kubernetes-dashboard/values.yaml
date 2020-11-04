@@ -216,12 +216,7 @@ proxy:
     repository: nginx
     tag: mainline-alpine
   resources: {}
-  ## SecurityContext for the metrics scraper container
-  containerSecurityContext:
-    allowPrivilegeEscalation: false
-    readOnlyRootFilesystem: true
-    runAsUser: 1001
-    runAsGroup: 2001
+
 ## Optional Metrics Server sub-chart
 ## Enable this is you don't already have metrics-server enabled on your cluster and
 ## want to use it with dashboard metrics-scraper

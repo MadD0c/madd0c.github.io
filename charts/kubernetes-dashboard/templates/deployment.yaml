@@ -169,10 +169,6 @@ spec:
             mountPath: /certs
           - mountPath: /tmp
             name: tmp-volume
-{{- with .Values.proxy.containerSecurityContext }}
-        securityContext:
-{{ toYaml . | indent 10 }}
-{{- end }}
 {{- with .Values.proxy.resources }}
         resources:
 {{ toYaml . | indent 10 }}
