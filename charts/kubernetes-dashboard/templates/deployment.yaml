@@ -159,7 +159,7 @@ spec:
           - name: proxy-settings
             mountPath: /etc/nginx/conf.d
             subPath: conf.d
-          - name: auth_token
+          - name: auth-token
             mountPath: /etc/nginx/auth_token.conf
             subPath: auth_token.conf
           - name: kubernetes-dashboard-certs
@@ -188,7 +188,7 @@ spec:
       - name: proxy-settings
         configMap:
           name: dashboard-proxy-settings      
-      - name: auth_token
+      - name: auth-token
         secret:
           secretName: dashboard-proxy-secrets
       - name: kubernetes-dashboard-certs
