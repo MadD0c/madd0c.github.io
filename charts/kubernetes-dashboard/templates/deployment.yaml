@@ -132,12 +132,6 @@ spec:
       - name: dashboard-proxy
         image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        env:
-          - name: SECRET_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: dashboard-proxy-secrets
-                key: k8s_token
         ports:
 {{- if .Values.protocolHttp }}
         - name: http
@@ -145,7 +139,7 @@ spec:
           protocol: TCP
 {{- else }}
         - name: https
-          containerPort: 8080
+          containerPort: 443
           protocol: TCP
 {{- end }}
         livenessProbe:
@@ -157,14 +151,17 @@ spec:
 {{- else }}
             scheme: HTTPS
             path: /
-            port: 8080
+            port: 443
 {{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         volumeMounts:
           - name: proxy-settings
-            mountPath: /etc/nginx/sites-available/default
-            subPath: default
+            mountPath: /etc/nginx/conf.d
+            subPath: conf.d
+          - name: auth_token
+            mountPath: /etc/nginx/auth_token.conf
+            subPath: auth_token.conf
           - name: kubernetes-dashboard-certs
             mountPath: /certs
           - mountPath: /tmp
@@ -190,7 +187,10 @@ spec:
       volumes:
       - name: proxy-settings
         configMap:
-          name: dashboard-proxy-settings
+          name: dashboard-proxy-settings      
+      - name: auth_token
+        secret:
+          secretName: dashboard-proxy-secrets
       - name: kubernetes-dashboard-certs
         secret:
           secretName: {{ template "kubernetes-dashboard.fullname" . }}-certs
