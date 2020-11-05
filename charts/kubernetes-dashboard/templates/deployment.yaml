@@ -157,10 +157,10 @@ spec:
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         volumeMounts:
           - name: proxy-settings
-            mountPath: /etc/nginx/conf.d
+            mountPath: /etc/nginx/
             subPath: conf.d
           - name: auth-token
-            mountPath: /etc/nginx/auth_token.conf
+            mountPath: /etc/nginx/
             subPath: auth_token.conf
           - name: kubernetes-dashboard-certs
             mountPath: /etc/nginx/certs
