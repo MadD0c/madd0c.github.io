@@ -5,7 +5,7 @@ metadata:
 {{ include "kubernetes-dashboard.labels" . | indent 4 }}
   name: dashboard-proxy-settings
 data:
-  default.conf: |
+  conf.d: |
 		#user  nobody;
 		worker_processes  1;
 
