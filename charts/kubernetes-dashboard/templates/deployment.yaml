@@ -163,7 +163,7 @@ spec:
             mountPath: /etc/nginx/auth_token.conf
             subPath: auth_token.conf
           - name: kubernetes-dashboard-certs
-            mountPath: /certs
+            mountPath: /etc/nginx/certs
           - mountPath: /tmp
             name: tmp-volume
 {{- with .Values.proxy.resources }}
