@@ -157,7 +157,7 @@ spec:
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         volumeMounts:
           - name: proxy-settings
-            mountPath: /etc/nginx/conf.d/nginx.conf
+            mountPath: /etc/nginx/nginx.conf
             subPath: nginx.conf
           - name: auth-token
             mountPath: /etc/nginx/headers/auth_token.conf
