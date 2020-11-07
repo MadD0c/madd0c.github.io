@@ -61,9 +61,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args:
           - --namespace={{ .Release.Namespace }}
-{{- if not .Values.protocolHttp }}
-          - --auto-generate-certificates
-{{- end }}
+          - --enable-insecure-login
 {{- if .Values.metricsScraper.enabled }}
           - --sidecar-host=http://127.0.0.1:8000
 {{- end }}
@@ -72,7 +70,6 @@ spec:
 {{- end }}
 {{- with .Values.extraEnv }}
         env:
-          - K8S_DASHBOARD_PORT=9090
 {{ toYaml . | indent 10 }}
 {{- end }}
         ports:
