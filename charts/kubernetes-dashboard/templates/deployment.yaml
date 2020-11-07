@@ -160,7 +160,7 @@ spec:
             mountPath: /etc/nginx/conf.d/proxy.conf
             subPath: proxy.conf
           - name: auth-token
-            mountPath: /etc/nginx/headers/auth_token.conf
+            mountPath: /etc/nginx/auth_token.conf
             subPath: auth_token.conf
           - name: kubernetes-dashboard-certs
             mountPath: /etc/nginx/certs
