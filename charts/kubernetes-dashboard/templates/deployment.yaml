@@ -75,8 +75,8 @@ spec:
 {{ toYaml . | indent 10 }}
 {{- end }}
         ports:
-        - name: https
-          containerPort: 8443
+        - name: http
+          containerPort: 9090
           protocol: TCP
         volumeMounts:
         - name: kubernetes-dashboard-certs
@@ -89,9 +89,9 @@ spec:
 {{- end }}
         livenessProbe:
           httpGet:
-            scheme: HTTPS
+            scheme: HTTP
             path: /
-            port: 8443
+            port: 9090
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
 {{- with .Values.resources }}
@@ -133,26 +133,14 @@ spec:
         image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
-{{- if .Values.protocolHttp }}
         - name: http
           containerPort: 8080
           protocol: TCP
-{{- else }}
-        - name: https
-          containerPort: 443
-          protocol: TCP
-{{- end }}
         livenessProbe:
           httpGet:
-{{- if .Values.protocolHttp }}
             scheme: HTTP
             path: /
             port: 8080
-{{- else }}
-            scheme: HTTPS
-            path: /
-            port: 443
-{{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         volumeMounts:
