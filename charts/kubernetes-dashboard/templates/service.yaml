@@ -30,11 +30,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - port: {{ .Values.service.externalPort }}
+  - port: 8080
 {{- if .Values.protocolHttp }}
-    targetPort: 443
+    targetPort: 8080
 {{- else }}
-    targetPort: 443
+    targetPort: 8080
 {{- end }}
 {{- if hasKey .Values.service "nodePort" }}
     nodePort: {{ .Values.service.nodePort }}
