@@ -5,12 +5,7 @@ metadata:
 {{ include "kubernetes-dashboard.labels" . | indent 4 }}
   name: dashboard-proxy-settings
 data:
-  conf.d: |
-    worker_processes  1;
-    error_log  logs/error.log  info;
-    events {
-        worker_connections  1024;
-    }
+  proxy.conf: |
     https {
       server {
         listen 443 ssl default_server;
