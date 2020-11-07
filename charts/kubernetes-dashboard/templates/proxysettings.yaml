@@ -12,7 +12,7 @@ data:
         index index.html index.htm index.nginx-debian.html;
         server_name _;
         location / {
-            proxy_pass https://127.0.0.1:9090;
+            proxy_pass http://127.0.0.1:9090;
             include auth_token.conf;
             }
        }
