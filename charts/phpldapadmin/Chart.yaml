@@ -1,6 +1,10 @@
 apiVersion: v1
 name: phpldapadmin
+<<<<<<< Updated upstream
 version: 0.0.2
+=======
+version: 0.1.4
+>>>>>>> Stashed changes
 appVersion: 0.7.1
 description: Web-based LDAP browser to manage your LDAP server
 keywords:

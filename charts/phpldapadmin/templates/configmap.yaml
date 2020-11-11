@@ -1,9 +1,7 @@
----
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "phpldapadmin.fullname" . }}-config
+  name: {{ template "phpldapadmin.fullname" . }}
   labels:
     app: {{ template "phpldapadmin.name" . }}
     chart: {{ template "phpldapadmin.chart" . }}
@@ -13,6 +11,7 @@ metadata:
 {{ toYaml .Values.extraLabels | indent 4 }}
 {{- end }}
 data:
+<<<<<<< Updated upstream
   config.php: |-
 		<?php
 		/** NOTE **
@@ -127,3 +126,6 @@ data:
 		/* Use TLS (Transport Layer Security) to connect to the LDAP server. */
 		 $servers->setValue('server','tls',{{ .Values.ldap.tsl }});
 		?>
+=======
+{{ toYaml .Values.env | indent 2 }}
+>>>>>>> Stashed changes
