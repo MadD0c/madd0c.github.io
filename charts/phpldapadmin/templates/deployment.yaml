@@ -29,22 +29,9 @@ spec:
         - name: http
           containerPort: 80
           protocol: TCP
-<<<<<<< Updated upstream
-        env:
-          - name: PHPLDAPADMIN_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ template "phpldapadmin.fullname" . }}-secret
-                key: ldap_password
-        volumeMounts:
-          - name: phpldapadmin-config
-            mountPath: /config/config.php
-            subPath: config.php
-=======
         envFrom:
         - configMapRef:
             name: {{ template "phpldapadmin.fullname" . }}
->>>>>>> Stashed changes
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
@@ -63,10 +50,3 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-<<<<<<< Updated upstream
-      volumes:
-        - name: phpldapadmin-config
-          configMap:
-            name: {{ template "phpldapadmin.fullname" . }}-config
-=======
->>>>>>> Stashed changes
