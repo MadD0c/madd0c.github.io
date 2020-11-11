@@ -33,7 +33,7 @@ spec:
         - configMapRef:
             name: {{ template "phpldapadmin.fullname" . }}
         - secretRef:
-            name: phpldapadmin-secrets
+            name: {{ template "phpldapadmin.fullname" . }}-secret
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
