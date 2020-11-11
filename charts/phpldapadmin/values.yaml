@@ -9,7 +9,7 @@ env:
   PHPLDAPADMIN_TRUST_PROXY_SSL: "true"
 
 secrets:
-  PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{''mccannclan.family'': [{''server'': [{''host'':''192.168.1.221''},{''tls'': false},{''port'': 389}]},{''login'': [{''bind_id'':''cn=admin,dc=mccannclan,dc=family''}]}]}]"
+  LDAP_HOSTS: "#PYTHON2BASH:[{''mccannclan.family'': [{''server'': [{''host'':''192.168.1.221''},{''tls'': false},{''port'': 389}]},{''login'': [{''bind_id'':''cn=admin,dc=mccannclan,dc=family''}]}]}]"
 ## Number of phpLDAPadmin images
 replicaCount: 1
 
