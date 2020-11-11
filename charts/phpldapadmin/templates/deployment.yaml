@@ -8,6 +8,7 @@ metadata:
     chart: {{ template "phpldapadmin.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -30,20 +31,11 @@ spec:
         - name: http
           containerPort: 80
           protocol: TCP
-        env:
-          - name: PHPLDAPADMIN_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: {{ template "phpldapadmin.fullname" . }}-secret
-                key: ldap_password
-        volumeMounts:
-          - name: phpldapadmin-config
-            mountPath: /container/service/phpldapadmin/assets/config/config.php
-            subPath: config.php
-          - name: phpldapadmin-certs
-            mountPath: /container/run/service/phpldapadmin/assets/apache2/certs
-          - name: ldap-client-certs
-            mountPath: /container/run/service/ldap-client/assets/certs
+        envFrom:
+        - configMapRef:
+            name: {{ template "phpldapadmin.fullname" . }}
+        - secretRef:
+            name: {{ template "phpldapadmin.fullname" . }}-secret
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
@@ -62,11 +54,3 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      volumes:
-        - name: phpldapadmin-config
-          configMap:
-            name: {{ template "phpldapadmin.fullname" . }}-config
-        - name: phpldapadmin-certs
-          emptyDir: {}
-        - name: ldap-client-certs
-          emptyDir: {}

@@ -3,6 +3,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+## TODO: add this in the deployment.yaml
+env:
+  PHPLDAPADMIN_HTTPS: "false"
+  PHPLDAPADMIN_TRUST_PROXY_SSL: "true"
+
+secrets:
+  LDAP_HOSTS: "#PYTHON2BASH:[{''mccannclan.family'': [{''server'': [{''host'':''192.168.1.221''},{''tls'': false},{''port'': 389}]},{''login'': [{''bind_id'':''cn=admin,dc=mccannclan,dc=family''}]}]}]"
 ## Number of phpLDAPadmin images
 replicaCount: 1
 
@@ -86,13 +93,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-## LDAP server details
-ldap:
-  name: Example
-  host:
-  port: 389
-  auth_type: http
-  bind_id:
-  password:
-  tsl: false
