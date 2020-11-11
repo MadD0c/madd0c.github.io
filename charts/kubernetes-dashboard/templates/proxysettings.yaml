@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  labels:
+{{ include "kubernetes-dashboard.labels" . | indent 4 }}
+  name: dashboard-proxy-settings
+data:
+  proxy.conf: |
+      server {
+        listen 8080 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / {
+            proxy_pass http://127.0.0.1:9090;
+            include auth_token.conf;
+            }
+       }
