@@ -32,6 +32,8 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "phpldapadmin.fullname" . }}
+        - secretRef:
+            name: phpldapadmin-secrets
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
