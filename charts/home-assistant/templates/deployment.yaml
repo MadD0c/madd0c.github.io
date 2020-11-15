@@ -155,6 +155,8 @@ spec:
           - mountPath: /config
             name: config
             subPath: {{ default "" .Values.persistence.configSubPath }}
+          - name: secrets.yaml
+            mountPath: /config/secrets.yaml
           {{- if .Values.zwave.enabled }}
           - mountPath: /dev/ttyACM0
             name: ttyacm
@@ -396,6 +398,9 @@ spec:
         hostPath:
           path: {{.Values.persistence.hostPath}}
           type: Directory
+      - name: secrets.yaml
+        secret:
+          secretName: {{ template "home-assistant.fullname" . }}-secrets-file
         {{- else }}
         persistentVolumeClaim:
           claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "home-assistant.fullname" . }}{{- end }}
