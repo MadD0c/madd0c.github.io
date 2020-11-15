@@ -11,7 +11,7 @@ image:
 # upgrade strategy type (e.g. Recreate or RollingUpdate)
 strategyType: Recreate
 
-hass-secrets:
+hasssecrets:
   mqtt_password: none
 
 # Probes configuration
