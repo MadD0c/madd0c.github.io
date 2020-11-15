@@ -155,7 +155,7 @@ spec:
           - mountPath: /config
             name: config
             subPath: {{ default "" .Values.persistence.configSubPath }}
-          - name: secrets.yaml
+          - name: secretsfile
             mountPath: /config/secrets.yaml
             subPath: secrets.yaml
           {{- if .Values.zwave.enabled }}
@@ -406,6 +406,9 @@ spec:
       {{- else }}
         emptyDir: {}
       {{ end }}
+      - name: secretsfile
+        secret:
+          secretName: {{ template "home-assistant.fullname" . }}-secrets-file      
       {{- if .Values.zwave.enabled }}
       - name: ttyacm
         hostPath:
