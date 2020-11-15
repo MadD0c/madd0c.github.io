@@ -269,6 +269,8 @@ vscode:
   ##
   extraEnv: {}
 
+hass-secrets: none
+
   ## Set to "-" to use default argument list
   ## Otherwise convert to list of arguments
   args: "-"
