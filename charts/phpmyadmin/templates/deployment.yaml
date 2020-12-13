@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: {{ template "phpldapadmin.fullname" . }}
+  name: {{ template "phpmyadmin.fullname" . }}
   labels:
-    app: {{ template "phpldapadmin.name" . }}
-    chart: {{ template "phpldapadmin.chart" . }}
+    app: {{ template "phpmyadmin.name" . }}
+    chart: {{ template "phpmyadmin.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 
@@ -13,29 +13,27 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "phpldapadmin.name" . }}
+      app: {{ template "phpmyadmin.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "phpldapadmin.name" . }}
+        app: {{ template "phpmyadmin.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        args:
-          - --copy-service
         ports:
         - name: http
-          containerPort: 80
+          containerPort: 8080
           protocol: TCP
         envFrom:
         - configMapRef:
-            name: {{ template "phpldapadmin.fullname" . }}
+            name: {{ template "phpmyadmin.fullname" . }}
         - secretRef:
-            name: {{ template "phpldapadmin.fullname" . }}-secret
+            name: {{ template "phpmyadmin.fullname" . }}-secret
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
